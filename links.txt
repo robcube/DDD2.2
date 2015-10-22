@@ -1,0 +1,14 @@
+https://dev.outlook.com/RestGettingStarted/Tutorial/dotnet
+
+https://apps.dev.microsoft.com/#/appList
+
+https://outlook.office.com/owa
+
+Sign up for free 1-year account until live.com/outlook.com gets Office365 REST API enabled.
+
+Powerful, extensible, secure, and controlled by your AD or even Azure.
+
+While text isn't perfect due to accent, background noise, cellular connection, emotion, et al, it's 
+an start! We can tell from the tone whether its a pressing issue or something that I can wait on.
+
+
