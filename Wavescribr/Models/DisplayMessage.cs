@@ -34,17 +34,6 @@ namespace Wavescribr.Models
                             from.EmailAddress.Address);
         }
 
-        //public DisplayMessage(string subject, DateTimeOffset? dateTimeReceived, 
-        //    Recipient from, IList<IAttachment> attachments)
-        //{
-        //    Subject = subject;
-        //    this.DateTimeReceived = (DateTimeOffset)dateTimeReceived;
-        //    this.From = string.Format("{0} ({1})", from.EmailAddress.Name,
-        //                    from.EmailAddress.Address);
-        //    foreach (var attachment in attachments)
-        //        Attachments += attachment.Name + " ";
-        //}
-
         public DisplayMessage(string subject, DateTimeOffset? dateTimeReceived, Recipient from, IReadOnlyList<IAttachment> attachments)
         {
             Subject = subject;
@@ -58,22 +47,19 @@ namespace Wavescribr.Models
                 this.TranscribedText = Task.Run(() => Transcribe(new MemoryStream(Attachment))).Result;
                 Attachments = a.Name;
             }
-            //{
-            //    Attachments += attachment.Name + " ";
-            //    //var bytes = ((FileAttachment)attachment).ContentBytes;
-            //    //this.TranscibedText = Transcribe(new MemoryStream(bytes));
-            //}
         }
-    
+
         private string Transcribe(MemoryStream audioFile)
         {
-            using (SpeechRecognitionEngine recognizer = new SpeechRecognitionEngine())
+            using (var recognizer = new SpeechRecognitionEngine())
             {
                 // Create and load a grammar.
-                Grammar dictation = new DictationGrammar();
-                dictation.Name = "Dictation Grammar";
+                var dictation = new DictationGrammar
+                {
+                    Name = "Dictation Grammar"
+                };
 
-                 recognizer.LoadGrammar(dictation);
+                recognizer.LoadGrammar(dictation);
 
                 // Configure the input to the recognizer.
                 recognizer.SetInputToWaveStream(audioFile);
@@ -92,7 +78,7 @@ namespace Wavescribr.Models
                 // Keep the console window open.
                 while (!completed)
                 {
-                    //Console.ReadLine();
+                    // let it work until it's done
                 }
             }
             return TranscribedText;
@@ -116,16 +102,16 @@ namespace Wavescribr.Models
         {
             if (e.Error != null)
             {
-                Console.WriteLine("  Error encountered, {0}: {1}",
-                e.Error.GetType().Name, e.Error.Message);
+                Console.WriteLine("Error encountered, {0}: {1}",
+                    e.Error.GetType().Name, e.Error.Message);
             }
             if (e.Cancelled)
             {
-                Console.WriteLine("  Operation cancelled.");
+                Console.WriteLine("Operation cancelled.");
             }
             if (e.InputStreamEnded)
             {
-                Console.WriteLine("  End of stream encountered.");
+                Console.WriteLine("End of stream encountered.");
             }
             Console.WriteLine();
             Console.WriteLine("Done. Press ENTER.");
